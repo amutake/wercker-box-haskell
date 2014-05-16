@@ -32,7 +32,11 @@ script: |
   wget http://hackage.haskell.org/package/cabal-install-${CABAL_VER}/cabal-install-${CABAL_VER}.tar.gz
   tar xzf cabal-install-${CABAL_VER}.tar.gz
   cd cabal-install-${CABAL_VER}
-  sudo ./bootstrap.sh --global
+  ./bootstrap.sh
+
+  # set .cabal/bin into PATH
+  export PATH=$HOME/.cabal/bin:$PATH
+  echo 'export PATH=$HOME/.cabal/bin:$PATH' | sudo tee -a /etc/profile
 
 box-detect:
   priority: 1000
