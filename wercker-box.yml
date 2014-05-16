@@ -1,0 +1,73 @@
+name: haskell
+version: 0.0.1
+description: Latest GHC and cabal-install
+type: main
+platform: ubuntu@12.04
+keywords:
+  - haskell
+  - ghc
+  - cabal
+packages:
+  - ghc@7.6.3
+  - cabal-install@1.20.0.1
+script: |
+  # variables
+  GHC_VER=7.8.2
+  CABAL_VER=1.20.0.1
+
+  # install dependencies
+  sudo apt-get update -y
+  sudo apt-get install -y build-essential wget libgmp-dev freeglut3-dev zlib1g-dev
+  sudo ln -s /usr/lib/x86_64-linux-gnu/libgmp.so.10.0.2 /usr/lib/libgmp.so.3
+
+  # install ghc
+  cd $HOME
+  wget http://www.haskell.org/ghc/dist/${GHC_VER}/ghc-${GHC_VER}-x86_64-unknown-linux.tar.bz2
+  tar xjf ghc-${GHC_VER}-x86_64-unknown-linux.tar.bz2
+  cd ghc-${GHC_VER}
+  ./configure
+  sudo make install
+
+  # install cabal-install
+  cd $HOME
+  wget http://hackage.haskell.org/package/cabal-install-${CABAL_VER}/cabal-install-${CABAL_VER}.tar.gz
+  tar xzf cabal-install-${CABAL_VER}.tar.gz
+  cd cabal-install-${HP_VER}
+  sudo ./bootstrap.sh --global
+
+box-detect:
+  priority: 1000
+  version :
+  detect:
+    - files:
+      - '*.cabal'
+
+default-build:
+  haskell:
+    priority: 50
+    detect:
+      - default: true
+    text-to-append: |
+      # Build definition
+      build:
+        # The steps that will be executed on build
+        steps:
+          - script:
+              name: install dependencies
+              code: |
+                cabal update
+                cabal install --only-dependencies
+          - script:
+              name: build package
+              code: |
+                cabal configure --enable-tests
+                cabal build
+          - script:
+              name: test package
+              code: |
+                cabal test
+          - script:
+              name: echo haskell information
+              code: |
+                echo "ghc version $(ghc --version) running"
+                echo "cabal version $(cabal --version) running"
