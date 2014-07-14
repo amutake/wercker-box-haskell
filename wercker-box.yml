@@ -1,5 +1,5 @@
 name: haskell
-version: 0.0.4
+version: 0.0.5
 description: Latest GHC and cabal-install
 type: main
 platform: ubuntu@12.04
@@ -8,11 +8,11 @@ keywords:
   - ghc
   - cabal
 packages:
-  - ghc@7.8.2
+  - ghc@7.8.3
   - cabal-install@1.20.0.3
 script: |
   # variables
-  GHC_VER=7.8.2
+  GHC_VER=7.8.3
   CABAL_VER=1.20.0.3
 
   # install dependencies
