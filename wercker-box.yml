@@ -1,5 +1,5 @@
 name: haskell
-version: 0.0.7
+version: 0.0.8
 description: wercker box for latest ghc and cabal-install
 type: main
 platform: ubuntu@12.04
@@ -8,12 +8,12 @@ keywords:
   - ghc
   - cabal
 packages:
-  - ghc@7.8.4
-  - cabal-install@1.22.0.0
+  - ghc@7.10.1
+  - cabal-install@1.22.4.0
 script: |
   # variables
-  export GHC_VER=7.8.4
-  export CABAL_VER=1.22.0.0
+  export GHC_VER=7.10.1
+  export CABAL_VER=1.22.4.0
 
   export GHC_TARBALL=ghc-${GHC_VER}-x86_64-unknown-linux-deb7.tar.xz
   export CABAL_TARBALL=cabal-install-${CABAL_VER}.tar.gz
